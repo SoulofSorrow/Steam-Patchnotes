@@ -5,13 +5,13 @@ This Python script has been developed to monitor changes in Steam Workshop chang
 
 ## Functionality
 
-- The script scans a Steam Workshop page for workshop IDs and extracts them.
+- The script scans a Steam Workshop Collection page for workshop IDs and extracts them.
 - It continuously monitors these workshop IDs to detect new patch notes.
 - When new patch notes are found, it sends a notification via a Discord webhook.
 
 ## Usage
 
-1. Set the URL of the Steam Workshop page you want to monitor in the `page_url` variable.
+1. Set the URL of the Steam Workshop Collection page you want to monitor in the `page_url` variable.
 2. Specify the Discord webhook URL in the `discord_webhook_url` variable.
 3. Execute the script, and it will monitor changes in patch notes and send notifications.
 
