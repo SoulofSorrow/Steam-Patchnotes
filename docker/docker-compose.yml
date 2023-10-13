@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  Steam-Workshop-Notes:
+    image: soulofsorrow/steam-patchnotes-webhook
+    container_name: Steam-Workshop-Notes
+    environment:
+      - PAGE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3050243744
+      - DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/
+      - DEBUG_MODE=false
+      - SLEEP_INTERVAL=60
+      
+    volumes:
+      - ./config.json:/app/config.json
+
+    restart: always
