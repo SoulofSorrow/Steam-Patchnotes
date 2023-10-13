@@ -5,10 +5,10 @@ services:
     image: soulofsorrow/steam-patchnotes-webhook
     container_name: Steam-Workshop-Notes
     environment:
-      - PAGE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3050243744
-      - DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/
+      - PAGE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3050243744 #Workshop Collection Url
+      - DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/ #Discord Webhook URL
       - DEBUG_MODE=false
-      - SLEEP_INTERVAL=60
+      - SLEEP_INTERVAL=60 #Update Intervall
       
     volumes:
       - ./config.json:/app/config.json
