@@ -5,13 +5,13 @@ Dieses Python-Skript wurde entwickelt, um Änderungen in Steam Workshop-Changelo
 
 ## Funktionalität
 
-- Das Skript durchsucht eine Steam Workshop-Seite nach Workshop-IDs und extrahiert sie.
+- Das Skript durchsucht eine Steam Workshop Kollection Seite nach Workshop-IDs und extrahiert sie.
 - Es überwacht dann kontinuierlich die Workshop-IDs, um nach neuen Patch Notes zu suchen.
 - Wenn neue Patch Notes gefunden werden, sendet es eine Benachrichtigung über einen Discord-Webhook.
 
 ## Verwendung
 
-1. Setzen Sie die URL der Steam Workshop-Seite, die Sie überwachen möchten, in der `page_url` Variable.
+1. Setzen Sie die URL der Steam Workshop Kollection Seite, die Sie überwachen möchten, in der `page_url` Variable.
 2. Legen Sie die Discord-Webhook-URL in der `discord_webhook_url` Variable fest.
 3. Führen Sie das Skript aus und es wird Änderungen in den Patch Notes überwachen und Benachrichtigungen senden.
 
