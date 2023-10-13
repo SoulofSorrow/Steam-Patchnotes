@@ -5,20 +5,20 @@ import time
 import json
 from datetime import datetime
 
-# Die URL der Seite, auf der Sie nach den URLs suchen möchten
+# The URL of the page where you want to search for URLs/ Steam Workshop Collection URL
 page_url = "https://steamcommunity.com/sharedfiles/filedetails/?id="
 
-# HTTP-Anfrage, um die Seite abzurufen
+# HTTP request to retrieve the page
 response = requests.get(page_url)
 
 if response.status_code == 200:
-    # HTML-Parsing mit BeautifulSoup
+    # HTML parsing with BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Suchen Sie alle Links auf der Seite
+    # Find all links on the page
     links = soup.find_all("a", href=True)
 
-    # Extrahieren Sie nur die IDs aus den gefundenen URLs und entfernen Sie Duplikate
+    # Extract only the IDs from the found URLs and remove duplicates
     workshop_ids = set()
     for link in links:
         href = link['href']
@@ -27,40 +27,40 @@ if response.status_code == 200:
             workshop_id = match.group(1)
             workshop_ids.add(workshop_id)
 
-    # Hier können Sie die Changelog-URLs weiterverarbeiten oder drucken
+    # You can further process or print the changelog URLs here
     for workshop_id in workshop_ids:
         changelog_url = f"https://steamcommunity.com/sharedfiles/filedetails/changelog/{workshop_id}"
-        print("Changelog-URL für Workshop-ID", workshop_id, ":", changelog_url)
+        print("Changelog URL for Workshop ID", workshop_id, ":", changelog_url)
 
-    # Den regulären Ausdruck für die ID erstellen
-    target_id_pattern = r'(\d+)'  # Dieser Regex erlaubt Zahlen von 10 Stellen
+    # Create the regular expression pattern for the ID
+    target_id_pattern = r'(\d+)'  # This regex allows 10-digit numbers
 
-    # Discord-Webhook-URL
+    # Discord webhook URL
     discord_webhook_url = '<DISCORD-WEBHOOK>'
 
-    # Funktion zum Auslesen des ersten Eintrags und des Titels
+    # Function to fetch the first entry and title
     def get_entry_and_title(url):
-        # Eine HTTP-Anfrage an die Website senden
+        # Send an HTTP request to the website
         response = requests.get(url)
 
-        # Den HTML-Inhalt der Website analysieren
+        # Parse the HTML content of the website
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Das erste <p>-Element mit passender ID finden
+        # Find the first <p> element with a matching ID
         target_element = soup.find('p', id=re.compile(target_id_pattern))
 
-        # Das Element mit der CSS-Klasse "workshopItemTitle" finden
+        # Find the element with the CSS class "workshopItemTitle"
         title_element = soup.find(class_='workshopItemTitle')
 
-        # Wenn das Element gefunden wurde, den Textinhalt ausgeben
+        # If the element is found, output the text content
         if target_element:
             entry = target_element.get_text()
-            title = title_element.get_text() if title_element else 'Kein Titel gefunden'
+            title = title_element.get_text() if title_element else 'No title found'
             return entry, title
         else:
             return None, None
 
-    # Funktion zum Speichern des Eintrags und des Titels in einer Konfigurationsdatei
+    # Function to save the entry and title in a configuration file
     def save_entry_and_title(url, entry, title):
         config = {}
         try:
@@ -73,7 +73,7 @@ if response.status_code == 200:
         with open('config.json', 'w') as config_file:
             json.dump(config, config_file)
 
-    # Funktion zum Laden der Einträge und Titel aus der Konfigurationsdatei
+    # Function to load entries and titles from the configuration file
     def load_entries_and_titles():
         try:
             with open('config.json', 'r') as config_file:
@@ -81,16 +81,16 @@ if response.status_code == 200:
         except FileNotFoundError:
             return {}
 
-    # Debug-Modus aktivieren/deaktivieren
+    # Enable/disable debug mode
     debug_mode = True
 
-    # Debug-Funktion zum Konsolentimer und Debug-Nachrichten
+    # Debug function for console timing and debug messages
     def debug(message):
         if debug_mode:
             print(f'[DEBUG] {message}')
 
     while True:
-        # Alle Workshop-URLs in der Konfigurationsdatei laden
+        # Load all workshop URLs from the configuration file
         saved_entries = load_entries_and_titles()
 
         for workshop_id in workshop_ids:
@@ -98,20 +98,20 @@ if response.status_code == 200:
             last_saved_entry = saved_entries.get(url, {}).get('entry')
             last_saved_title = saved_entries.get(url, {}).get('title')
 
-            # Den aktuellen Eintrag und den Titel abrufen
+            # Fetch the current entry and title
             current_entry, current_title = get_entry_and_title(url)
 
             if current_entry:
-                # Wenn es einen letzten gespeicherten Eintrag gibt und er sich vom aktuellen Eintrag oder Titel unterscheidet
+                # If there's a last saved entry and it's different from the current entry or title
                 if (last_saved_entry != current_entry) or (last_saved_title != current_title):
-                    debug(f"Es gibt eine Änderung in {url}:")
-                    debug(f'Titel: {current_title}')
-                    debug(f'Eintrag: {current_entry}')
+                    debug(f"There is a change in {url}:")
+                    debug(f'Title: {current_title}')
+                    debug(f'Entry: {current_entry}')
 
-                    # Aktuelles Datum und Uhrzeit abrufen
+                    # Get the current date and time
                     current_datetime = datetime.now().strftime("%H:%M:%S %d.%m.%Y")
 
-                    # Discord-Webhook-Nachricht erstellen
+                    # Create a Discord webhook message
                     discord_message = {
                         "username": "Soul's Patchbot",
                         "avatar_url": "https://i.imgur.com/4M34hi2.png",
@@ -119,12 +119,12 @@ if response.status_code == 200:
                             {
                                 "title": current_title,
                                 "url": url,
-                                "description": f"Patch Notes für die: {current_title}",
+                                "description": f"Patch Notes for: {current_title}",
                                 "color": 15258703,
                                 "fields": [
                                     {
                                         "name": "News",
-                                        "value": f"Datum und Uhrzeit: {current_datetime}\n\n{current_entry}",
+                                        "value": f"Date and Time: {current_datetime}\n\n{current_entry}",
                                         "inline": True
                                     }
                                 ],
@@ -136,16 +136,16 @@ if response.status_code == 200:
                         ]
                     }
 
-                    # Die Discord-Nachricht an den Webhook senden
+                    # Send the Discord message to the webhook
                     response = requests.post(discord_webhook_url, json=discord_message)
 
-                    # Hier können Sie die Antwort überprüfen und bei Bedarf Fehlerbehandlung hinzufügen
+                    # You can check the response here and add error handling if needed
 
-                    # Den aktuellen Eintrag und Titel in der Konfigurationsdatei speichern
+                    # Save the current entry and title in the configuration file
                     save_entry_and_title(url, current_entry, current_title)
 
-        # Warten Sie 5 Minuten, bevor Sie erneut überprüfen
+        # Wait for 5 minutes before checking again
         time.sleep(300)
 
 else:
-    print("Fehler beim Abrufen der Seite.")
+    print("Error retrieving the page.")
