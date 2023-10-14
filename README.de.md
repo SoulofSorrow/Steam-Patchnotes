@@ -1,5 +1,5 @@
 # Steam Workshop Changelog Monitor
-[![en](https://img.shields.io/badge/lang-en-red)](https://github.com/SoulofSorrow/Steam-Patchnotes/blob/main/README.md)
+[![en](https://img.shields.io/badge/lang-en-red)](README.md)
 
 Dieses Python-Skript wurde entwickelt, um Änderungen in Steam Workshop-Changelogs zu überwachen und Benachrichtigungen über Discord-Webhooks zu senden, wenn neue Patch Notes verfügbar sind.
 

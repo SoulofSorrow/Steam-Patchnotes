@@ -1,0 +1,11 @@
+.tox
+**.egg-info/
+build/
+**/*.pyc
+**__pycache__/
+venv/
+.idea/
+.coverage
+coverage.xml
+.ruff_cache
+.env
