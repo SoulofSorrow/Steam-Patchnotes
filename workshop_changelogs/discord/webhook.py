@@ -18,7 +18,7 @@ def send_discord_message(
     timestamp = datetime.fromtimestamp(update_timestamp)
     message = {
         "username": "Soul's Patchbot",
-        "avatar_url": "https://i.imgur.com/4M34hi2.png",
+        "avatar_url": "https://i.imgur.com/f95IN5i.png",
         "embeds": [
             {
                 "title": mod_title,
@@ -38,7 +38,7 @@ def send_discord_message(
                 ],
                 "footer": {
                     "text": "by SoulofSorrow",
-                    "icon_url": "https://i.imgur.com/fKL31aD.jpg",
+                    "icon_url": "https://i.imgur.com/8np9JdL.png",
                 },
             }
         ],
