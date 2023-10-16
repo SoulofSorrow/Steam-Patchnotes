@@ -4,14 +4,16 @@ services:
   Steam-Workshop-Notes:
     image: ghcr.io/soulofsorrow/steam-patchnotes:latest
     container_name: Steam-Workshop-Notes
+    entrypoint: sleep
+    command: "infinity"
     environment:  # copy .env.SAMPLE to .env, and docker-compose auto-loads the variables
       - LANG=${LANG}  # Language select en, de
       - MOD_IDS=${MOD_IDS}  # Comma separated Mod IDs (no spaces) (Look at the end of the URL)
       - COLLECTION_IDS=${COLLECTION_IDS}  # Comma separated Collection IDs (no spaces) (Look at the end of the URL)
       - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}  # Discord Webhook URL
-      - SLEEP_INTERVAL=${SLEEP_INTERVAL:60}  # Update Interval
-      - LOG_LEVEL=${LOG_LEVEL:INFO}  # CRITICAL, WARN, INFO, DEBUG
-      - REQUESTS_TIMEOUT=${REQUESTS_TIMEOUT:10}  # Web requests timeout period
+      - SLEEP_INTERVAL=${SLEEP_INTERVAL:-60}  # Update Interval
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}  # CRITICAL, WARN, INFO, DEBUG
+      - REQUESTS_TIMEOUT=${REQUESTS_TIMEOUT:-10}  # Web requests timeout period
     volumes:
       - ./config.json:/app/config.json
 

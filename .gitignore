@@ -9,3 +9,4 @@ venv/
 coverage.xml
 .ruff_cache
 .env
+config.json

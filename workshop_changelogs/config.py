@@ -1,6 +1,5 @@
 import json
 import os
-from dataclasses import dataclass
 from functools import lru_cache
 
 
@@ -22,31 +21,36 @@ def _config_from_json(key: str, default=None):
     return json_config.get(key, default)
 
 
-@dataclass
-class Config:
-    language = os.getenv("LANG", "en")[:2]
-    mod_ids = os.getenv("MOD_IDS", _config_from_json("mod_ids", []))
-    collection_ids = os.getenv(
-        "COLLECTION_IDS", _config_from_json("collection_ids", [])
-    )
-    webhook_url = os.getenv(
-        "DISCORD_WEBHOOK_URL", _config_from_json("webhook_url")
-    )
-    sleep_interval = int(
-        os.getenv("SLEEP_INTERVAL", _config_from_json("sleep_interval", 300))
-    )
-    log_level = os.getenv("LOG_LEVEL", _config_from_json("log_level", "INFO"))
-    requests_timeout = int(
-        os.getenv(
-            "REQUESTS_TIMEOUT", _config_from_json("requests_timeout", 10)
+class Config(object):
+    def __init__(self):
+        self.language = os.getenv("LANG", "en")[:2]
+        self.mod_ids = os.getenv("MOD_IDS", _config_from_json("mod_ids", []))
+        self.collection_ids = os.getenv(
+            "COLLECTION_IDS", _config_from_json("collection_ids", [])
         )
-    )
-    cache = _config_from_json("cache", {})
+        self.webhook_url = os.getenv(
+            "DISCORD_WEBHOOK_URL", _config_from_json("webhook_url")
+        )
+        self.sleep_interval = int(
+            os.getenv(
+                "SLEEP_INTERVAL", _config_from_json("sleep_interval", 300)
+            )
+        )
+        self.log_level = os.getenv(
+            "LOG_LEVEL", _config_from_json("log_level", "INFO")
+        )
+        self.requests_timeout = int(
+            os.getenv(
+                "REQUESTS_TIMEOUT", _config_from_json("requests_timeout", 10)
+            )
+        )
 
-    if isinstance(mod_ids, str):
-        mod_ids = mod_ids.split(",")
-    if isinstance(collection_ids, str):
-        collection_ids = collection_ids.split(",")
+        if isinstance(self.mod_ids, str):
+            self.mod_ids.split(",")
+        if isinstance(self.collection_ids, str):
+            self.collection_ids.split(",")
+
+        self.cache = _config_from_json("cache", {})
 
     def write_config(self):
         with open(os.getenv("CONFIG_PATH", "config.json"), "w") as f:
