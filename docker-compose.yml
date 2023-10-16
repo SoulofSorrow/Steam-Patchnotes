@@ -3,9 +3,10 @@ version: '3.8'
 services:
   Steam-Workshop-Notes:
     image: ghcr.io/soulofsorrow/steam-patchnotes:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: Steam-Workshop-Notes
-    entrypoint: sleep
-    command: "infinity"
     environment:  # copy .env.SAMPLE to .env, and docker-compose auto-loads the variables
       - LANG=${LANG}  # Language select en, de
       - MOD_IDS=${MOD_IDS}  # Comma separated Mod IDs (no spaces) (Look at the end of the URL)
