@@ -14,6 +14,9 @@ services:
       - SLEEP_INTERVAL=${SLEEP_INTERVAL:-60}  # Update Interval
       - LOG_LEVEL=${LOG_LEVEL:-INFO}  # CRITICAL, WARN, INFO, DEBUG
       - REQUESTS_TIMEOUT=${REQUESTS_TIMEOUT:-10}  # Web requests timeout period
+      - SEND_ON_INSTALL=$(SEND_ON_INSTALL:-True}  # Send on the first run of the script if no cache is present.
+      - SEND_ON_STARTUP=${SEND_ON_STARTUP:-False}  # Send on the first run of the script every time, regardless if cache is present.
+
     volumes:
       - ./config.json:/app/config.json
 

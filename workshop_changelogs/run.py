@@ -21,6 +21,10 @@ def _run():
     mod_info = mod_info if mod_info else []
     collection_mod_info = collection_mod_info if collection_mod_info else []
 
+    # Store if this is the installing run, as it gets invalidated on first mod
+    # info added to cache.
+    first_install = config.first_install
+
     # Iterate over infos
     for info in mod_info + collection_mod_info:
         if not info["result"]:
@@ -36,9 +40,12 @@ def _run():
         if info["publishedfileid"] not in config.cache:
             logger.info(t("Adding info for Mod ID", info["publishedfileid"]))
             config.cache[info["publishedfileid"]] = info["time_updated"]
-            continue
 
-        if config.cache[info["publishedfileid"]] != info["time_updated"]:
+        if (
+            config.cache[info["publishedfileid"]] != info["time_updated"]
+            or (config.send_on_startup and not config.started)
+            or (config.send_on_install and first_install)
+        ):
             logger.info(
                 t("Mod updated", info["publishedfileid"], info["title"])
             )
@@ -49,6 +56,7 @@ def _run():
                 get_change_log(info["publishedfileid"]),
             )
             config.cache[info["publishedfileid"]] = info["time_updated"]
+    config.started = True
     config.write_config()
 
 

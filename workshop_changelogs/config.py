@@ -44,17 +44,42 @@ class Config(object):
                 "REQUESTS_TIMEOUT", _config_from_json("requests_timeout", 10)
             )
         )
+        self.send_on_install = os.getenv(
+            "SEND_ON_INSTALL", _config_from_json("send_on_install", True)
+        )
+        self.send_on_startup = os.getenv(
+            "SEND_ON_STARTUP", _config_from_json("send_on_startup", False)
+        )
 
         if isinstance(self.mod_ids, str):
             self.mod_ids.split(",")
         if isinstance(self.collection_ids, str):
             self.collection_ids.split(",")
+        if (
+            isinstance(self.send_on_install, str)
+            and self.send_on_install.lower() == "true"
+        ):
+            self.send_on_install = True
+        else:
+            self.send_on_install = False
+        if (
+            isinstance(self.send_on_startup, str)
+            and self.send_on_startup.lower() == "true"
+        ):
+            self.send_on_startup = True
+        else:
+            self.send_on_startup = False
 
         self.cache = _config_from_json("cache", {})
+        self.started = False
 
     def write_config(self):
         with open(os.getenv("CONFIG_PATH", "config.json"), "w") as f:
             json.dump(self.__dict__, f)
+
+    @property
+    def first_install(self) -> bool:
+        return self.cache == {}
 
 
 @lru_cache(maxsize=1)
