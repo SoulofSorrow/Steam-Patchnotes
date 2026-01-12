@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  Steam-Workshop-Notes:
+    image: ghcr.io/soulofsorrow/steam-patchnotes:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: Steam-Workshop-Notes
+    environment:  # copy .env.SAMPLE to .env, and docker-compose auto-loads the variables
+      - LANG=${LANG}  # Language select en, de
+      - MOD_IDS=${MOD_IDS}  # Comma separated Mod IDs (no spaces) (Look at the end of the URL)
+      - COLLECTION_IDS=${COLLECTION_IDS}  # Comma separated Collection IDs (no spaces) (Look at the end of the URL)
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}  # Discord Webhook URL
+      - SLEEP_INTERVAL=${SLEEP_INTERVAL}  # Update Interval
+      - LOG_LEVEL=${LOG_LEVEL}  # CRITICAL, WARN, INFO, DEBUG
+      - REQUESTS_TIMEOUT=${REQUESTS_TIMEOUT}  # Web requests timeout period
+      - SEND_ON_INSTALL=${SEND_ON_INSTALL}  # Send on the first run of the script if no cache is present.
+      - SEND_ON_STARTUP=${SEND_ON_STARTUP}  # Send on the first run of the script every time, regardless if cache is present.
+
+    volumes:
+      - ./config.json:/app/config.json
+
+    restart: always
