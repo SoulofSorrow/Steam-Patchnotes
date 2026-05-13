@@ -24,15 +24,9 @@ dynamic = [
 dev = [
     "bandit",
     "black",
-    "coverage",
-    "diff-cover",
     "isort",
     "pre-commit",
-    "pytest>=2.7.3",
     "ruff",
-]
-test = [
-    "tox",
 ]
 
 [project.urls]
@@ -58,11 +52,15 @@ lines_after_imports = 2
 skip = [".tox", "venv"]
 
 [tool.ruff]
-exclude = [
+# extend-exclude statt exclude: behält ruffs Default-Excludes (.venv, .git,
+# __pycache__, build, ...) und ergänzt nur die folgenden Pfade.
+extend-exclude = [
     "venv",
     "__init__.py",
 ]
 line-length = 79
+
+[tool.ruff.lint]
 select = [
     "B",
     "C",

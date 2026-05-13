@@ -5,16 +5,18 @@ name: Package and Release
 on:
   push:
     tags:
-      - "*.*.*"
+      - "v*.*.*"
 
 
 jobs:
   build:
     runs-on: ubuntu-latest
     name: Release
+    permissions:
+      contents: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
