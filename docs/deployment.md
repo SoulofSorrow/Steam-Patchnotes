@@ -22,6 +22,8 @@
 
 ## CI
 
+Job order: the check jobs (`lint`) run first. The image job `build-and-push` has `needs: [lint]` and starts only when all of them pass; on pull requests it builds without pushing.
+
 | File | Trigger | Jobs |
 | --- | --- | --- |
 | `.gitea/workflows/ci.yml` | push `main`, tags `v*.*.*`, PR to `main` | `ruff check .`, `compileall`; multi-arch image (`linux/amd64,linux/arm64`) to `${vars.REGISTRY_GITEA}` or `gitea.groot.rocks` via dind |
