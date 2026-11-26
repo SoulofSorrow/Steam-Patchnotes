@@ -67,6 +67,11 @@ Ensure that you comply with Steam usage policies and Discord guidelines when usi
 
 Feel free to extend and customize the script to meet your requirements.
 
+## Documentation
+
+Detailed, agent-oriented documentation lives in [docs/](docs/README.md).
+Instructions for AI coding agents: [AGENTS.md](AGENTS.md).
+
 ### Development Setup
 Set up a virtual environment for the project
 
