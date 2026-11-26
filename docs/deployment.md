@@ -24,6 +24,8 @@
 
 Job order: the check jobs (`lint`) run first. The image job `build-and-push` has `needs: [lint]` and starts only when all of them pass; on pull requests it builds without pushing.
 
+Emulation: `docker/setup-qemu-action` is pinned to `tonistiigi/binfmt:qemu-v9.2.2`; with `latest` (QEMU 10) Node crashed with `Illegal instruction` in the arm64 build and the job hung. Job `build-and-push` has `timeout-minutes: 45`.
+
 | File | Trigger | Jobs |
 | --- | --- | --- |
 | `.gitea/workflows/ci.yml` | push `main`, tags `v*.*.*`, PR to `main` | `ruff check .`, `compileall`; multi-arch image (`linux/amd64,linux/arm64`) to `${vars.REGISTRY_GITEA}` or `gitea.groot.rocks` via dind |
