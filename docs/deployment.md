@@ -32,8 +32,7 @@ Emulation: `docker/setup-qemu-action` is pinned to `tonistiigi/binfmt:qemu-v9.2.
 | `.github/workflows/ci.yml` | same | same checks; image to `ghcr.io` |
 | `.github/workflows/release.yml` | tags `v*.*.*` | GitHub release via `softprops/action-gh-release` |
 
-Image tags: branch, `pr-<n>`, semver `{{version}}` and `{{major}}.{{minor}}`,
-`sha-<short>`, `latest` on the default branch.
+Image tags: every pushed build gets `sha-<short>` (also pushes to `main`). A release tag `vX.Y.Z` additionally pushes `X.Y.Z` and `latest`; a prerelease tag `vX.Y.Z-rc1` pushes `X.Y.Z-rc1` without `latest`. No branch tags (no `main`), no floating `X` / `X.Y` tags. Pull requests build without pushing.
 
 ## Release
 
