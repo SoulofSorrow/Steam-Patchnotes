@@ -18,3 +18,9 @@ coverage.xml
 .pre-commit-config.yaml
 .gitignore
 .ruff_cache
+
+# Agent tooling and docs (not needed in the image)
+AGENTS.md
+CLAUDE.md
+.claude/
+docs/

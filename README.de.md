@@ -32,6 +32,12 @@ Wenn Sie das Skript in einem Docker-Container ausführen möchten, finden Sie di
 - `Dockerfile` - Das Docker-Build-File, um den Container zu erstellen.
 - `docker-compose.yml` - Das Docker Compose-File für die Container-Konfiguration.
 
+## Dokumentation
+
+Ausführliche, für KI-Agenten geschriebene Dokumentation liegt in
+[docs/](docs/README.md) (Englisch). Anweisungen für KI-Coding-Agenten:
+[AGENTS.md](AGENTS.md).
+
 ## Hinweis
 
 Dieses Skript wurde zu Demonstrationszwecken erstellt und sollte mit Vorsicht verwendet werden. Stellen Sie sicher, dass Sie die Einhaltung der Steam-Nutzungsrichtlinien und der Discord-Richtlinien beachten, wenn Sie es verwenden.
